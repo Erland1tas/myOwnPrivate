@@ -9,7 +9,7 @@ import clickedRecipeView from './allViews/clickedRecipeView.js';
 export const state = {
   search: '',
   recipesList: [],
-  customerPickedRecipe: [],
+  customerPickedRecipe: {},
 };
 
 const accomodateObject = async function (searchQuery) {
@@ -30,12 +30,14 @@ const accomodateObject = async function (searchQuery) {
   }
 };
 
-const displayRecipe = async function () {
+const displayRecipe = async function (id) {
   try {
-    const id = window.location.hash.split('').slice(1).join('');
-    const response = await fetch(`${API_URL}/${id}`);
+    const response = await fetch(
+      `${API_URL}/${id.split('').slice(1).join('')}`
+    );
     const { data } = await response.json();
-    state.customerPickedRecipe.push(data.recipe);
+    state.customerPickedRecipe = data.recipe;
+    console.log(state.customerPickedRecipe);
   } catch (err) {
     console.log(err);
   }
